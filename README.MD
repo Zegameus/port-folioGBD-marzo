@@ -26,7 +26,7 @@ Decidir lo que es más positivo y menos me resulta complicado, ya que todo me pa
 ## Ejercicios significativos
 
 De todas las prácticas que hemos hecho me resulta fácil decir cuales son los ejercicios que más me han costado o me han parecido interesante. Comenzaré desde la primera práctica de SELECT (la 14 de todas ellas).
-```oraclesqlplus
+```sql
 SELECT NOMBRE,
        APELLIDO1,
        APELLIDO2,
@@ -47,7 +47,7 @@ FROM ALUMNOS;
 En esta consulta se nos daba una tabla que contenía una dirección, y se nos pedía separar en 3 columnas los tipos de vía (si son calles, avenidas, caminos...), el nombre de la vía y el número. Para nosotros, mentalmente nos parece fácil de hacer, pero claro, el transformarlo a código es algo más complicado, estuve bastante rato intentandolo hasta que salío ese "trozo" de código.
 
 Luego se fue complicando todo un poco, pero llegaron las tablas múltiples y aquí si tuve algún que otro problema.
-```oraclesqlplus
+```sql
 SELECT P.NOMBRE, PADRE.NOMBRE, MADRE.NOMBRE
 FROM PERSONAS P
          LEFT OUTER JOIN PERSONAS PADRE ON P.N_PADRE = PADRE.N_PERSONA
@@ -55,7 +55,7 @@ FROM PERSONAS P
 ```
 Este ejercicio consistia en sacar a todos las personas con sus padres, incluidas aquellas que no tenían (en la base de datos) los padres y madres, que puede parecer fácil pero no se porque en mi cabeza tenía que usar `right outer join` cosa que no es necesario y me estaba peleando porque no salía.
 
-```oraclesqlplus
+```sql
 SELECT p.nombre
 FROM personas p
          RIGHT OUTER JOIN personas pa ON (p.n_padre = pa.n_persona)
@@ -63,7 +63,7 @@ WHERE pa.sexo = 'H'
   AND p.nombre is null;
 ```
 En este caso se nos pide obtener las personas que no son padres.
-```oraclesqlplus
+```sql
 SELECT descripcion, minuto, j.NOMBRE
 FROM goles g
          NATURAL JOIN jugadores j
@@ -72,7 +72,7 @@ where G.DESCRIPCION like '%' || J2.NOMBRE || '%';
 ```
 En este ejercicio tienes que usar un `cross join` para hacer una consulta para comparar los jugadores de futbol y la descripción de los goles de tal forma que observamos que el gol ha sido asistido por otros jugadores. Otra cosa que he usado ha sido un `natural join` ya que coincidia el nombre de las columnas de ambas tablas que las relacionaban.
 
-```oraclesqlplus
+```sql
 SELECT P.NOMBRE, COUNT(*) MUNICIPIOS
 FROM LOCALIDADES L
 JOIN PROVINCIAS P on L.N_PROVINCIA = P.N_PROVINCIA
