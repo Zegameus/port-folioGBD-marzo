@@ -85,7 +85,29 @@ HAVING COUNT(*) = (SELECT MAX(COUNT(*)) maximo
 Y esta es una de las más complejas en el sentido de mostrar el máximo de municipios y otra columna que sea el nombre de la provincia, ya que no se puede hacer en una sola consulta y no queda más remedio que usar una subconsulta.
 
 ## Ejercicios de Invención propia
+Un ejercicio que se me ocurre es una consulta que me salió intentando hacer otra cosa.
+Obtener la captial de la comunidad cuyo nombre es diferente al de la provincia y la provincia es diferente a la propia comunidad.
+```sql
+SELECT L.NOMBRE,P.NOMBRE, C.NOMBRE
+FROM LOCALIDADES L
+    JOIN COMUNIDADES C ON L.ID_LOCALIDAD = C.ID_CAPITAL
+    JOIN PROVINCIAS P on L.N_PROVINCIA = P.N_PROVINCIA
+WHERE L.NOMBRE != P.NOMBRE AND P.NOMBRE != C.NOMBRE;
+```
+Explicación: Leemos desde la tabla localidades, luego unimos comunidades a traves de la relación C.ID_CAPITAL y L.ID_LOCALIDAD y luego unimos provincias mediante la foreign key de N_PROVINCIA.
 
+Otro ejercicio es uno que he puesto antes, obtener el nombre de la provincia y el numero de localidades que más tiene. La unica diferencia es que se nos pedia solo el número y yo saqué tambien el nombré de la provincia.
+
+```sql
+SELECT P.NOMBRE, COUNT(*) MUNICIPIOS
+FROM LOCALIDADES L
+JOIN PROVINCIAS P on L.N_PROVINCIA = P.N_PROVINCIA
+GROUP BY P.NOMBRE
+HAVING COUNT(*) = (SELECT MAX(COUNT(*)) maximo
+                   FROM localidades l
+                   JOIN provincias p USING (n_provincia)
+                   GROUP BY p.nombre);
+```
 
 ## Conclusiones
 
