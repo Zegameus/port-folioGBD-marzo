@@ -1,6 +1,13 @@
 # Portfolio GBD - Marzo
 #### Enrique García Navarro
-
+### Indície
+[Resumen](#resumen)  
+[Resumen-Tema 6](#tema-6)  
+[Resumen-Tema 7](#tema-7)  
+[Reflexiones-personales](#reflexiones-personales)  
+[Ejercicios Significativos](#ejercicios-significativos)  
+[Ejercicios Propios](#ejercicios-de-invención-propia)  
+[Conclusion](#conclusiones)
 ## Resumen
 
 A lo largo de este trimestre hemos aprendido a realizar consultas en **SQL**, primero de una forma básica listando solo columnas, luego hemos trabajado con funciones y por último hemos incorporado más de una tabla a las consultas, permitiendo así juntar dos o más tablas.
@@ -73,16 +80,15 @@ where G.DESCRIPCION like '%' || J2.NOMBRE || '%';
 En este ejercicio tienes que usar un `cross join` para hacer una consulta para comparar los jugadores de futbol y la descripción de los goles de tal forma que observamos que el gol ha sido asistido por otros jugadores. Otra cosa que he usado ha sido un `natural join` ya que coincidia el nombre de las columnas de ambas tablas que las relacionaban.
 
 ```sql
-SELECT P.NOMBRE, COUNT(*) MUNICIPIOS
-FROM LOCALIDADES L
-JOIN PROVINCIAS P on L.N_PROVINCIA = P.N_PROVINCIA
-GROUP BY P.NOMBRE
-HAVING COUNT(*) = (SELECT MAX(COUNT(*)) maximo
-                   FROM localidades l
-                   JOIN provincias p USING (n_provincia)
-                   GROUP BY p.nombre);
+SELECT nombre, COUNT(*) goles
+FROM jugadores j
+JOIN goles g USING(id_jugador)
+GROUP BY nombre
+HAVING COUNT(*) =(SELECT MAX(COUNT(*)) maximo
+                   FROM goles
+                   GROUP BY id_jugador);
 ```
-Y esta es una de las más complejas en el sentido de mostrar el máximo de municipios y otra columna que sea el nombre de la provincia, ya que no se puede hacer en una sola consulta y no queda más remedio que usar una subconsulta.
+Esta consulta es un poco más compleja, se trata de obtener al mayor goleador de la base de datos, y mostrar su nombre (y no solo los goles), para ello tenemos que recurrir si o sí a una subconsulta en el having
 
 ## Ejercicios de Invención propia
 Un ejercicio que se me ocurre es una consulta que me salió intentando hacer otra cosa.
@@ -96,7 +102,7 @@ WHERE L.NOMBRE != P.NOMBRE AND P.NOMBRE != C.NOMBRE;
 ```
 Explicación: Leemos desde la tabla localidades, luego unimos comunidades a traves de la relación C.ID_CAPITAL y L.ID_LOCALIDAD y luego unimos provincias mediante la foreign key de N_PROVINCIA.
 
-Otro ejercicio es uno que he puesto antes, obtener el nombre de la provincia y el numero de localidades que más tiene. La unica diferencia es que se nos pedia solo el número y yo saqué tambien el nombré de la provincia.
+Otro ejercicio es uno marecido a uno que he puesto antes, obtener el nombre de la provincia y el numero de localidades que más tiene
 
 ```sql
 SELECT P.NOMBRE, COUNT(*) MUNICIPIOS
@@ -108,7 +114,8 @@ HAVING COUNT(*) = (SELECT MAX(COUNT(*)) maximo
                    JOIN provincias p USING (n_provincia)
                    GROUP BY p.nombre);
 ```
+Explicación: Primero obtendremos la lista de provincias con sus municipios y después tendremos que poder una cláusula having para delimitar la salida a solo la que tenga más municipios, para ello usaremos una subconsulta escalar para obtener el número máximo de municipios.
 
 ## Conclusiones
 
-A lo largo de este trimestre sin duda alguna todo ha sido nuevo para mí, ya que nunca había trabajado con **SQL**, pero muy gratificante el aprender el como se obtiene la información de una base de datos, como manipularla para obtener solo lo que necesitamos o el consultar varias tablas para obtener información más completa.
+A lo largo de este trimestre sin duda alguna todo ha sido nuevo para mí, ya que nunca había trabajado con **SQL**, pero muy gratificante el aprender el como se obtiene la información de una base de datos, como manipularla para obtener solo lo que necesitamos o el consultar varias tablas para obtener información más completa. El saber hacer consultas de varias tablas da sin duda alguna muchismimo juego y se puden hacer consultas de (casi) todo tipo y si le sumamos las funciones de tipo expresiones regulares ya podemos sacar casi cualquier cosa que se nos ponga por deltante, igual tendremos que hecharle un buen rato pensando y haciendo pruebas pero al fin y al cabo es como la programación.
