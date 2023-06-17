@@ -1,6 +1,6 @@
 # Portfolio GBD - Marzo
 #### Enrique García Navarro
-### Indície
+### Indíce
 [Resumen](#resumen)  
 [Resumen-Tema 6](#tema-6)  
 [Resumen-Tema 7](#tema-7)  
